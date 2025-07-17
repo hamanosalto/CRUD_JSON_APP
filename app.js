@@ -7,8 +7,8 @@ const PORT = 3000;
 const filePath = path.join(__dirname, 'data.json');
 
 app.use(express.json());
-app.use(express.static('public'));
 
+// --- APIルートを先に定義 ---
 // データ読み込み
 function readData() {
   try {
@@ -31,7 +31,7 @@ function writeData(data) {
 
 // すべてのToDoを取得
 app.get('/api/todos', (req, res) => {
-  res.json(readData());
+  return res.json(readData());
 });
 
 // 新規ToDoを追加
@@ -39,15 +39,19 @@ app.post('/api/todos', (req, res) => {
   const todos = readData();
   const { text } = req.body;
 
+  if (!text || !text.trim()) {
+    return res.status(400).json({ message: 'タスクのテキストが必要です' });
+  }
+
   const newTodo = {
-    id: Date.now().toString(), // ← ここを文字列にするのがポイント！
-    text,
+    id: Date.now().toString(), // IDは文字列で統一
+    text: text.trim(),
     done: false,
   };
 
   todos.push(newTodo);
   writeData(todos);
-  res.status(201).json(newTodo);
+  return res.status(201).json(newTodo);
 });
 
 // ToDoを削除
@@ -55,35 +59,43 @@ app.delete('/api/todos/:id', (req, res) => {
   const todos = readData();
   const updated = todos.filter(todo => String(todo.id) !== req.params.id);
   writeData(updated);
-  res.status(204).send();
+  return res.status(204).send();
 });
 
-// ToDoの完了状態をトグル
+// ToDo完了状態切替
 app.put('/api/todos/:id/toggle', (req, res) => {
   const todos = readData();
   const index = todos.findIndex(todo => String(todo.id) === req.params.id);
   if (index !== -1) {
     todos[index].done = !todos[index].done;
     writeData(todos);
-    res.json(todos[index]);
+    return res.json(todos[index]);
   } else {
-    res.status(404).json({ message: 'Not found' });
+    return res.status(404).json({ message: 'Not found' });
   }
 });
 
-// ToDoの編集（テキスト更新）
-app.put('/api/todos/:id/toggle', (req, res) => {
+// ToDoテキスト編集
+app.put('/api/todos/:id', (req, res) => {
   const todos = readData();
   const index = todos.findIndex(todo => String(todo.id) === req.params.id);
+  const { text } = req.body;
+
+  if (!text || !text.trim()) {
+    return res.status(400).json({ message: '空のタスクは保存できません' });
+  }
+
   if (index !== -1) {
-    todos[index].done = !todos[index].done;
+    todos[index].text = text.trim();
     writeData(todos);
-    res.json(todos[index]);
+    return res.json(todos[index]);
   } else {
-    res.status(404).json({ message: 'Not found' });
+    return res.status(404).json({ message: 'Not found' });
   }
 });
 
+// --- 最後に静的ファイルの配信 ---
+app.use(express.static('public'));
 
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);

@@ -122,4 +122,26 @@ form.addEventListener('submit', async e => {
   fetchTodos();
 });
 
+async function saveEdit(id) {
+  const newText = document.getElementById(`edit-${id}`).value;
+
+  if (!newText.trim()) {
+    alert('空のタスクは保存できません');
+    return;
+  }
+
+  const res = await fetch(`/api/todos/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text: newText }),
+  });
+
+  if (res.ok) {
+    fetchTodos();
+  } else {
+    const error = await res.json();
+    alert('更新に失敗しました: ' + error.message);
+  }
+}
+
 fetchTodos();
