@@ -34,7 +34,9 @@ node app.js
 5.ブラウザでアクセス
 http://localhost:3000
 
-📁 フォルダ構成
+## 📁 フォルダ構成
+
+```
 crud-json-app/
 ├── app.js               # Node.js サーバー
 ├── data.json            # ToDoデータを保存するローカルJSONファイル
@@ -43,6 +45,7 @@ crud-json-app/
 │   ├── script.js        # クライアント側JavaScript
 │   └── styles.css       # カスタムCSS
 └── README.md
+```
 
 🧠 使用技術
 
