@@ -33,13 +33,21 @@ node app.js
 http://localhost:3000
 📁 フォルダ構成
 crud-json-app/
+
 ├── app.js               # Node.js サーバー
+
 ├── data.json            # ToDoデータを保存するローカルJSONファイル
+
 ├── public/
+
 │   ├── index.html       # フロントエンドHTML
+
 │   ├── script.js        # クライアント側JavaScript
+
 │   └── styles.css       # カスタムCSS
+
 └── README.md
+
 🧠 使用技術
 Node.js
 
