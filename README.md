@@ -27,7 +27,7 @@ Webブラウザからタスクの追加・編集・削除ができます。
 
 1. リポジトリをクローン  
    ```bash
-   git clone https://github.com/あなたのユーザー名/todo-json-app.git
+   git clone https://github.com/hamanosalto/CRUD_JSON_APP.git
    cd todo-json-app
 
 2.必要なファイルを準備
