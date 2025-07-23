@@ -16,15 +16,19 @@ Webブラウザからタスクの追加・編集・削除ができます。
 
 ## 🛠️ セットアップ方法
 
-### 1. クローン
+1. クローン
 git clone https://github.com/あなたのユーザー名/todo-json-app.git
 cd todo-json-app
+
 2. 必要なファイルを準備
 data.json（初期状態の空ファイル）をプロジェクトルートに作成
+
 3. 依存パッケージをインストール
 npm install express
+
 4. サーバー起動
 node app.js
+
 5. ブラウザでアクセス
 http://localhost:3000
 📁 フォルダ構成
